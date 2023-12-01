@@ -1,7 +1,6 @@
 fn part1(input: &str) -> u32 {
     input
         .lines()
-        .into_iter()
         .map(|line| {
             let (first, last) = (
                 line.chars().find_map(|e| e.to_digit(10)).unwrap(),
@@ -13,13 +12,42 @@ fn part1(input: &str) -> u32 {
 }
 
 fn part2(input: &str) -> u32 {
-    todo!()
+    input
+        .lines()
+        .map(|line| {
+            let numbers: Vec<u32> = line
+                .chars()
+                .enumerate()
+                .filter_map(|(i, c)| {
+                    if let d @ Some(_) = c.to_digit(10) {
+                        return d;
+                    }
+                    for (value, num_str) in [
+                        "one", "two", "three", "four", "five", "six", "seven", "eight", "nine",
+                    ]
+                    .into_iter()
+                    .enumerate()
+                    {
+                        if line[i..].starts_with(num_str) {
+                            return Some(value as u32 + 1);
+                        }
+                    }
+                    None
+                })
+                .collect();
+            numbers.first().unwrap() * 10 + numbers.last().unwrap()
+        })
+        .sum()
 }
 
 fn main() {
     let input = include_str!("../../inputs/day_01");
+
     let p1 = part1(input);
     println!("Part 1: {p1}");
+
+    let p2 = part2(input);
+    println!("Part 2: {p2}");
 }
 
 #[cfg(test)]
