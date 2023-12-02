@@ -15,10 +15,12 @@ fn part2(input: &str) -> u32 {
     input
         .lines()
         .map(|line| {
-            let numbers: Vec<u32> = line
-                .chars()
-                .enumerate()
-                .filter_map(|(i, c)| {
+            #[inline(always)]
+            fn find_digit<T: Iterator<Item = (usize, char)>>(
+                chars: T,
+                predicate: impl Fn(usize, &str) -> bool,
+            ) -> Option<u32> {
+                for (i, c) in chars {
                     if let d @ Some(_) = c.to_digit(10) {
                         return d;
                     }
@@ -28,27 +30,25 @@ fn part2(input: &str) -> u32 {
                     .into_iter()
                     .enumerate()
                     {
-                        if line[i..].starts_with(num_str) {
+                        if predicate(i, num_str) {
                             return Some(value as u32 + 1);
                         }
                     }
-                    None
-                })
-                .collect();
-            numbers.first().unwrap() * 10 + numbers.last().unwrap()
+                }
+                None
+            }
+
+            let (first, last) = (
+                find_digit(line.char_indices(), |i, s| line[i..].starts_with(s)).unwrap(),
+                find_digit(line.char_indices().rev(), |i, s| line[..=i].ends_with(s)).unwrap(),
+            );
+
+            first * 10 + last
         })
         .sum()
 }
 
-fn main() {
-    let input = include_str!("../../inputs/day_01");
-
-    let p1 = part1(input);
-    println!("Part 1: {p1}");
-
-    let p2 = part2(input);
-    println!("Part 2: {p2}");
-}
+aoc2023::main!("../../inputs/day_01");
 
 #[cfg(test)]
 mod test {
@@ -61,6 +61,11 @@ a1b2c3d4e5f
 treb7uchet
 ";
 
+    #[test]
+    fn test_part_1() {
+        assert_eq!(part1(EXAMPLE_INPUT_1), 142);
+    }
+
     const EXAMPLE_INPUT_2: &str = "\
 two1nine
 eightwothree
@@ -72,14 +77,7 @@ zoneight234
 ";
 
     #[test]
-    fn test_part_1() {
-        let sum = part1(EXAMPLE_INPUT_1);
-        assert_eq!(sum, 142);
-    }
-
-    #[test]
     fn test_part_2() {
-        let sum = part2(EXAMPLE_INPUT_2);
-        assert_eq!(sum, 281);
+        assert_eq!(part2(EXAMPLE_INPUT_2), 281);
     }
 }

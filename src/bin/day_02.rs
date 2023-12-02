@@ -39,19 +39,7 @@ fn part2(input: &str) -> u32 {
     })
 }
 
-fn main() {
-    let input = include_str!("../../inputs/day_02");
-
-    let now = std::time::Instant::now();
-    let p1 = part1(input);
-    println!("Time: {:?}", now.elapsed());
-    println!("Part 1: {p1}");
-
-    let now = std::time::Instant::now();
-    let p2 = part2(input);
-    println!("Time: {:?}", now.elapsed());
-    println!("Part 2: {p2}");
-}
+aoc2023::main!("../../inputs/day_02");
 
 #[cfg(test)]
 mod test {
