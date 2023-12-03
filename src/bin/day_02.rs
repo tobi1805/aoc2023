@@ -20,23 +20,26 @@ fn part1(input: &str) -> u32 {
 }
 
 fn part2(input: &str) -> u32 {
-    input.lines().fold(0, |sum, line| {
-        let (_game, rounds) = line.split_once(':').unwrap();
-        let (mut min_red, mut min_green, mut min_blue) = (0, 0, 0);
-        for round in rounds.split(';') {
-            for cube in round.split(',') {
-                let (count, color) = cube.trim().split_once(' ').unwrap();
-                let count = count.parse::<u32>().unwrap();
-                match color {
-                    "red" => min_red = min_red.max(count),
-                    "green" => min_green = min_green.max(count),
-                    "blue" => min_blue = min_blue.max(count),
-                    _ => panic!("Invalid color"),
-                };
+    input
+        .lines()
+        .map(|line| {
+            let (_game, rounds) = line.split_once(':').unwrap();
+            let (mut min_red, mut min_green, mut min_blue) = (0, 0, 0);
+            for round in rounds.split(';') {
+                for cube in round.split(',') {
+                    let (count, color) = cube.trim().split_once(' ').unwrap();
+                    let count = count.parse::<u32>().unwrap();
+                    match color {
+                        "red" => min_red = min_red.max(count),
+                        "green" => min_green = min_green.max(count),
+                        "blue" => min_blue = min_blue.max(count),   
+                        _ => panic!("Invalid color"),
+                    };
+                }
             }
-        }
-        sum + min_red * min_green * min_blue
-    })
+            min_red * min_green * min_blue
+        })
+        .sum()
 }
 
 aoc2023::main!("../../inputs/day_02");
