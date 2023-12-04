@@ -148,12 +148,6 @@ enum Content {
     NumberStart(u32),
 }
 
-#[derive(Debug, PartialEq, Eq)]
-struct Gear {
-    adj: u32,
-    value: u32,
-}
-
 aoc2023::main!("../../inputs/day_03");
 
 #[cfg(test)]
