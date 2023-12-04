@@ -1,6 +1,6 @@
 use std::collections::VecDeque;
 
-fn part1(input: &str) -> u32 {
+pub fn part1(input: &str) -> u32 {
     input
         .lines()
         .map(|l| {
@@ -27,7 +27,7 @@ fn part1(input: &str) -> u32 {
         .sum()
 }
 
-fn part2(input: &str) -> u32 {
+pub fn part2(input: &str) -> u32 {
     let mut additional_cards = VecDeque::new();
     input
         .lines()
@@ -47,12 +47,12 @@ fn part2(input: &str) -> u32 {
         })
         .map(|n| {
             let cards: u32 = additional_cards.pop_front().unwrap_or_default() + 1;
-            for i in 0..n {
+            (0..n).for_each(|i| {
                 additional_cards
                     .get_mut(i)
                     .map(|v| *v += cards)
                     .unwrap_or_else(|| additional_cards.push_back(cards));
-            }
+            });
             cards
         })
         .sum()
@@ -64,7 +64,7 @@ aoc2023::main!("../../inputs/day_04");
 mod test {
     use super::*;
 
-    const EXAMPLE_INPUT_1: &str = "\
+    const EXAMPLE_INPUT: &str = "\
 Card 1: 41 48 83 86 17 | 83 86  6 31 17  9 48 53
 Card 2: 13 32 20 16 61 | 61 30 68 82 17 32 24 19
 Card 3:  1 21 53 59 44 | 69 82 63 72 16 21 14  1
@@ -75,13 +75,11 @@ Card 6: 31 18 13 56 72 | 74 77 10 23 35 67 36 11
 
     #[test]
     fn test_part_1() {
-        assert_eq!(part1(EXAMPLE_INPUT_1), 13);
+        assert_eq!(part1(EXAMPLE_INPUT), 13);
     }
-
-    const EXAMPLE_INPUT_2: &str = EXAMPLE_INPUT_1;
 
     #[test]
     fn test_part_2() {
-        assert_eq!(part2(EXAMPLE_INPUT_2), 30);
+        assert_eq!(part2(EXAMPLE_INPUT), 30);
     }
 }

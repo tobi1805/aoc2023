@@ -1,4 +1,4 @@
-fn part1(input: &str) -> u32 {
+pub fn part1(input: &str) -> u32 {
     input.lines().fold(0, |sum, line| {
         let (game, rounds) = line.split_once(':').unwrap();
         for round in rounds.split(';') {
@@ -19,7 +19,7 @@ fn part1(input: &str) -> u32 {
     })
 }
 
-fn part2(input: &str) -> u32 {
+pub fn part2(input: &str) -> u32 {
     input
         .lines()
         .map(|line| {
@@ -48,7 +48,7 @@ aoc2023::main!("../../inputs/day_02");
 mod test {
     use super::*;
 
-    const EXAMPLE_INPUT_1: &str = "\
+    const EXAMPLE_INPUT: &str = "\
 Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green
 Game 2: 1 blue, 2 green; 3 green, 4 blue, 1 red; 1 green, 1 blue
 Game 3: 8 green, 6 blue, 20 red; 5 blue, 4 red, 13 green; 5 green, 1 red
@@ -58,11 +58,11 @@ Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green
 
     #[test]
     fn test_part_1() {
-        assert_eq!(part1(EXAMPLE_INPUT_1), 8);
+        assert_eq!(part1(EXAMPLE_INPUT), 8);
     }
 
     #[test]
     fn test_part_2() {
-        assert_eq!(part2(EXAMPLE_INPUT_1), 2286);
+        assert_eq!(part2(EXAMPLE_INPUT), 2286);
     }
 }

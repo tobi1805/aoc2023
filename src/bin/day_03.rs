@@ -1,6 +1,6 @@
 use std::collections::{HashMap, HashSet};
 
-fn part1(input: &str) -> u32 {
+pub fn part1(input: &str) -> u32 {
     let mut map = HashMap::new();
     let mut result = 0;
     'outer: for (value, start, length) in
@@ -55,7 +55,7 @@ fn part1(input: &str) -> u32 {
     result
 }
 
-fn part2(input: &str) -> u32 {
+pub fn part2(input: &str) -> u32 {
     let mut map = HashMap::new();
     let mut result = 0;
     for point in input.lines().enumerate().fold(Vec::new(), |mut v, (y, l)| {
@@ -154,7 +154,7 @@ aoc2023::main!("../../inputs/day_03");
 mod test {
     use super::*;
 
-    const EXAMPLE_INPUT_1: &str = "\
+    const EXAMPLE_INPUT: &str = "\
 467..114..
 ...*......
 ..35..633.
@@ -169,13 +169,11 @@ mod test {
 
     #[test]
     fn test_part_1() {
-        assert_eq!(part1(EXAMPLE_INPUT_1), 4361);
+        assert_eq!(part1(EXAMPLE_INPUT), 4361);
     }
-
-    const EXAMPLE_INPUT_2: &str = EXAMPLE_INPUT_1;
 
     #[test]
     fn test_part_2() {
-        assert_eq!(part2(EXAMPLE_INPUT_2), 467835);
+        assert_eq!(part2(EXAMPLE_INPUT), 467835);
     }
 }
